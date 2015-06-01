@@ -106,6 +106,26 @@ public class ForecastAdapter extends CursorAdapter {
         // Read user preference for metric or imperial temperature units
         boolean isMetric = Utility.isMetric(context);
 
-        // Read high
+        // Read high temperature from cursor
+        double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MEX_TEMP);
+        viewHolder.highTempView.setText(utility.formatTemperature(context, high));
+
+        // Read low temperature for cursor
+        double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
+        viewHolder.lowTempView.setText(Utility.formatTemperature(context, low));
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0 && mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
     }
 }
